@@ -404,6 +404,8 @@ typedef struct {
 #define EM_AMDGPU	224	/* AMD GPU architecture */
 			/* 225-242 - Reserved */
 #define EM_RISCV	243	/* RISC-V */
+			/* 244-257 - Reserved */
+#define EM_LOONGARCH	258	/* LoongArch */
 
 /* Unofficial machine types follow */
 #define EM_ALPHA	36902	/* DIGITAL Alpha */

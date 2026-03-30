@@ -2615,6 +2615,15 @@ riscv*-*-netbsd*)			# NetBSD RISC-V
 	gcc_cv_initfini_array=yes
 	;;
 
+loongarch*-*-netbsd*)
+	tm_file="elfos.h ${tm_file} ${nbsd_tm_file} loongarch/netbsd.h loongarch/loongarch-driver.h"
+	tmake_file="${tmake_file} loongarch/t-multilib loongarch/t-linux loongarch/t-netbsd64"
+	extra_options="${extra_options} netbsd.opt netbsd-elf.opt"
+	gnu_ld=yes
+	gas=yes
+	gcc_cv_initfini_array=yes
+	;;
+
 loongarch*-*-linux*)
 	tm_file="elfos.h gnu-user.h linux.h linux-android.h glibc-stdint.h ${tm_file}"
 	case ${target} in
@@ -5165,6 +5174,7 @@ case "${target}" in
 		  *-linux-gnu*) triplet_os="linux-gnu";;
 		  *-linux-musl*) triplet_os="linux-musl";;
 		  *-elf*) triplet_os="elf";;
+		  *-netbsd*) triplet_os="netbsd";;
 		  *)
 			  echo "Unsupported target ${target}." 1>&2
 			  exit 1

@@ -801,6 +801,7 @@ MACHINES.coldfire=	evbcf
 MACHINES.i386=		i386
 MACHINES.ia64=		ia64
 MACHINES.hppa=		hppa
+MACHINES.loongarch64=	loongarch
 MACHINES.m68000=	sun2
 MACHINES.m68k=		amiga atari cesfic hp300 luna68k mac68k \
 			mvme68k news68k next68k sun3 virt68k x68k
