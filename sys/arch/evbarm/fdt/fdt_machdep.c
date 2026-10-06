@@ -502,7 +502,9 @@ fdt_device_register(device_t self, void *aux)
 	 * Gross hack to allow handoff of console from genfb to a PCI DRM
 	 * display driver. Will match the first device that attaches, which
 	 * is not ideal, but better than nothing for now. Similar to how
-	 * this is handled on x86.
+	 * this is handled on x86. Drivers that attach below the PCI
+	 * function, such as viogpu at virtio, find this property with
+	 * cn_display_is_declared().
 	 */
 	if (device_parent(self) != NULL &&
 	    device_is_a(device_parent(self), "pci")) {

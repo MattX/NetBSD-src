@@ -46,6 +46,7 @@ __KERNEL_RCSID(0, "$NetBSD: cons.c,v 1.96 2025/12/20 10:51:05 skrll Exp $");
 #include <sys/atomic.h>
 #include <sys/buf.h>
 #include <sys/conf.h>
+#include <sys/device.h>
 #include <sys/file.h>
 #include <sys/heartbeat.h>
 #include <sys/ioctl.h>
@@ -94,6 +95,8 @@ static struct kmutex cn_lock;
 struct	tty *volatile constty;	/* virtual console output device */
 struct	consdev *cn_tab;	/* physical console device info */
 struct	vnode *cn_devvp[2];	/* vnode for underlying device. */
+
+static device_t cn_display_dev;	/* device driving the console display */
 
 void
 cn_set_tab(struct consdev *tab)
@@ -471,6 +474,54 @@ cnhalt(void)
 	if (cn_tab == NULL || cn_tab->cn_halt == NULL)
 		return;
 	(*cn_tab->cn_halt)(cn_tab->cn_dev);
+}
+
+/*
+ * cn_display_is_declared(dev)
+ *
+ *	Return true if machine-dependent code has declared dev to be
+ *	the console display, by setting the "is_console" device
+ *	property on dev or on one of the devices dev is attached
+ *	through.  The nearest device that has the property decides.
+ *
+ *	Looking at ancestors lets a display driver that attaches below
+ *	a bus transport, such as viogpu(4) at virtio(4) at pci(4),
+ *	see a declaration that MD code made on the PCI function.
+ */
+bool
+cn_display_is_declared(device_t dev)
+{
+	device_t d;
+	bool is_console;
+
+	for (d = dev; d != NULL; d = device_parent(d)) {
+		if (prop_dictionary_get_bool(device_properties(d),
+			"is_console", &is_console))
+			return is_console;
+	}
+	return false;
+}
+
+/*
+ * cn_display_claim(dev)
+ *
+ *	Claim the console display for dev.  Return true if no device
+ *	had claimed it yet, in which case dev now holds it, or if dev
+ *	already holds it.  Return false if another device holds it,
+ *	in which case dev must not attach as the console.
+ *
+ *	There is no way to give up a claim: the console wsdisplay(4)
+ *	cannot move to another device once it has attached.
+ */
+bool
+cn_display_claim(device_t dev)
+{
+	device_t prev;
+
+	KASSERT(dev != NULL);
+
+	prev = atomic_cas_ptr(&cn_display_dev, NULL, dev);
+	return prev == NULL || prev == dev;
 }
 
 /*

@@ -73,6 +73,8 @@ struct consdev {
 
 #ifdef _KERNEL
 
+#include <sys/device_if.h>
+
 extern	struct consdev constab[];
 extern	struct consdev *cn_tab;
 
@@ -91,6 +93,9 @@ void	nullcnprobe(struct consdev *);
 void	nullcninit(struct consdev *);
 void	nullcnpollc(dev_t, int);
 void	nullconsattach(int);
+
+bool	cn_display_is_declared(device_t);
+bool	cn_display_claim(device_t);
 
 /* console-specific types */
 #define	dev_type_cnprobe(n)	void n(struct consdev *)

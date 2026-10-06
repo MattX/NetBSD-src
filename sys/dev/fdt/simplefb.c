@@ -36,6 +36,8 @@ __KERNEL_RCSID(0, "$NetBSD: simplefb.c,v 1.17 2026/04/26 13:14:07 tsutsui Exp $"
 #include <sys/device.h>
 #include <sys/systm.h>
 
+#include <dev/cons.h>
+
 #include <dev/fdt/fdtvar.h>
 #include <dev/fdt/fdt_console.h>
 
@@ -223,7 +225,8 @@ simplefb_attach_genfb(struct simplefb_softc *sc)
 	const bool is_console = true;
 	genfb_cnattach();
 #else
-	const bool is_console = phandle == simplefb_console_phandle;
+	const bool is_console = phandle == simplefb_console_phandle &&
+	    cn_display_claim(dev);
 	if (is_console)
 		aprint_normal_dev(sc->sc_gen.sc_dev,
 		    "switching to framebuffer console\n");

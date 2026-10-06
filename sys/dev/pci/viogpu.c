@@ -54,6 +54,8 @@
 #include <sys/kernel.h>
 #include <sys/mutex.h>
 
+#include <dev/cons.h>
+
 #include <dev/pci/virtioreg.h>
 #include <dev/pci/virtiovar.h>
 #include <dev/pci/viogpu.h>
@@ -360,7 +362,8 @@ viogpu_attach_postintr(device_t self)
 #ifdef WSDISPLAY_MULTICONS
 	sc->is_console = true;
 #else
-	sc->is_console = device_getprop_bool(self, "is_console");
+	sc->is_console = cn_display_is_declared(self) &&
+	    cn_display_claim(self);
 #endif
 
 	sc->sc_wsd = (struct wsscreen_descr){

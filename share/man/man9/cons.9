@@ -24,10 +24,12 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd June 8, 2010
+.Dd October 6, 2026
 .Dt CONS 9
 .Os
 .Sh NAME
+.Nm cn_display_claim ,
+.Nm cn_display_is_declared ,
 .Nm cnbell ,
 .Nm cnflush ,
 .Nm cngetc ,
@@ -38,6 +40,10 @@
 .Nd console access interface
 .Sh SYNOPSIS
 .In dev/cons.h
+.Ft bool
+.Fn cn_display_claim "device_t dev"
+.Ft bool
+.Fn cn_display_is_declared "device_t dev"
 .Ft void
 .Fn cnbell "u_int pitch" "u_int period" "u_int volume"
 .Ft void
@@ -133,6 +139,39 @@ Console kernel output character routine.
 Commonly, kernel code uses
 .Xr printf 9
 rather than using this low-level interface.
+.El
+.Ss Console display selection
+Machine-dependent code declares which display device is the console
+by setting the boolean
+.Dq is_console
+device property on it.
+Display drivers use the following functions to decide whether to
+attach as the console:
+.Bl -tag -width "cn_display_is_declared()"
+.It Fn cn_display_is_declared
+Return true if the
+.Dq is_console
+property is true on
+.Fa dev
+or on one of the devices
+.Fa dev
+is attached through.
+The nearest device that has the property decides.
+This lets a driver that attaches below a bus transport, such as
+.Xr viogpu 4
+at
+.Xr virtio 4 ,
+see a declaration made on its PCI function.
+.It Fn cn_display_claim
+Claim the console display for
+.Fa dev .
+Return true if no device had claimed it yet, or if
+.Fa dev
+already holds it.
+Return false if another device holds it, in which case
+.Fa dev
+must not attach as the console.
+A claim cannot be given up.
 .El
 .Sh EXAMPLES
 This waits until a <Enter> key is pressed:

@@ -301,7 +301,8 @@ MLINKS+=condvar.9 cv.9 condvar.9 cv_init.9 condvar.9 cv_destroy.9 \
 	condvar.9 cv_signal.9 condvar.9 cv_broadcast.9 \
 	condvar.9 cv_has_waiters.9
 MLINKS+=cons.9 cnbell.9 cons.9 cngetc.9 cons.9 cngetsn.9 cons.9 cnpollc.9 \
-	cons.9 cnputc.9
+	cons.9 cnputc.9 cons.9 cn_display_claim.9 \
+	cons.9 cn_display_is_declared.9
 MLINKS+=copy.9 copyin.9 copy.9 copyout.9 copy.9 copystr.9 \
 	copy.9 copyinstr.9 copy.9 copyoutstr.9 \
 	copy.9 copyin_proc.9 copy.9 copyout_proc.9 \

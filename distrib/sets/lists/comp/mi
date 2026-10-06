@@ -12476,6 +12476,8 @@
 ./usr/share/man/cat9/cltom.0			comp-obsolete		obsolete
 ./usr/share/man/cat9/cn_check_magic.0		comp-sys-catman		.cat
 ./usr/share/man/cat9/cn_destroy_magic.0		comp-sys-catman		.cat
+./usr/share/man/cat9/cn_display_claim.0		comp-sys-catman		.cat
+./usr/share/man/cat9/cn_display_is_declared.0	comp-sys-catman		.cat
 ./usr/share/man/cat9/cn_get_magic.0		comp-sys-catman		.cat
 ./usr/share/man/cat9/cn_init_magic.0		comp-sys-catman		.cat
 ./usr/share/man/cat9/cn_isconsole.0		comp-sys-catman		.cat
@@ -21400,6 +21402,8 @@
 ./usr/share/man/html9/cltom.html		comp-obsolete	obsolete
 ./usr/share/man/html9/cn_check_magic.html	comp-sys-htmlman	html
 ./usr/share/man/html9/cn_destroy_magic.html	comp-sys-htmlman	html
+./usr/share/man/html9/cn_display_claim.html	comp-sys-htmlman	html
+./usr/share/man/html9/cn_display_is_declared.html	comp-sys-htmlman	html
 ./usr/share/man/html9/cn_get_magic.html		comp-sys-htmlman	html
 ./usr/share/man/html9/cn_init_magic.html	comp-sys-htmlman	html
 ./usr/share/man/html9/cn_isconsole.html		comp-sys-htmlman	html
@@ -30435,6 +30439,8 @@
 ./usr/share/man/man9/cltom.9			comp-obsolete		obsolete
 ./usr/share/man/man9/cn_check_magic.9		comp-sys-man		.man
 ./usr/share/man/man9/cn_destroy_magic.9		comp-sys-man		.man
+./usr/share/man/man9/cn_display_claim.9		comp-sys-man		.man
+./usr/share/man/man9/cn_display_is_declared.9	comp-sys-man		.man
 ./usr/share/man/man9/cn_get_magic.9		comp-sys-man		.man
 ./usr/share/man/man9/cn_init_magic.9		comp-sys-man		.man
 ./usr/share/man/man9/cn_isconsole.9		comp-sys-man		.man
