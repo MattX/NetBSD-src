@@ -26,7 +26,7 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.Dd May 16, 2020
+.Dd October 6, 2026
 .Dt WSDISPLAY 4
 .Os
 .Sh NAME
@@ -55,6 +55,7 @@
 .Cd options WSDISPLAY_CUSTOM_BORDER
 .Cd options WSDISPLAY_CUSTOM_OUTPUT
 .Cd options WSDISPLAY_DEFAULTSCREENS=N
+.Cd options WSDISPLAY_MULTICONS
 .Cd options WSDISPLAY_SCROLLSUPPORT
 .Sh DESCRIPTION
 The
@@ -169,6 +170,21 @@ Sets the number of virtual screens to allocate at boot time.
 Useful for small root filesystems where the
 .Xr wsconscfg 8
 utility is not wanted.
+.It Cd options WSDISPLAY_MULTICONS
+When a
+.Nm
+device takes over the system console, keep the previous console device
+(typically a serial port) active as well.
+Console output is sent to both devices, input is accepted from either,
+and the kernel debugger can be entered from either.
+Output to the console screen is also written to the previous console
+device one character at a time, so it is no faster than that device.
+Some framebuffer drivers also attach as the console unconditionally
+when this option is enabled.
+This behavior can be toggled at run time with the
+.Va hw.wsdisplay.multicons
+.Xr sysctl 8
+variable.
 .It Cd options WSDISPLAY_SCROLLSUPPORT
 Enables scrolling support.
 The key combinations are
@@ -633,6 +649,7 @@ Status device.
 .Xr tty 4 ,
 .Xr vga 4 ,
 .Xr wscons 4 ,
+.Xr sysctl 8 ,
 .Xr wsconscfg 8 ,
 .Xr wsconsctl 8 ,
 .Xr wsfontload 8 ,
@@ -650,3 +667,10 @@ are not cleanly distinguished in the code and in manual pages.
 .Pp
 .Dq Non-emulating
 display devices are not tested.
+.Pp
+.Dv WSDISPLAY_MULTICONS
+only keeps a previous console that is not a
+.Nm
+device active.
+It does not hand the console over from one framebuffer driver to
+another.
